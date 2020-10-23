@@ -1,7 +1,6 @@
 package com.projects.newsservice.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 
 @Entity

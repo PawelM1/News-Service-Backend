@@ -1,7 +1,6 @@
 package com.projects.newsservice.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Tag {

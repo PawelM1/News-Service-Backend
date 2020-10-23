@@ -14,7 +14,7 @@ public class NewsServiceApplication {
     }
 
     @Bean
-    Validator validator(){
+    Validator validator() {
         return new LocalValidatorFactoryBean();
     }
 }

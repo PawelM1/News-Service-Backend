@@ -1,7 +1,5 @@
 package com.projects.newsservice.entity;
 
-import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
