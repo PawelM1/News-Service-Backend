@@ -6,6 +6,7 @@ import com.projects.newsservice.entity.*;
 import com.projects.newsservice.exception.NotFoundPostException;
 import com.projects.newsservice.exception.NotFoundTagException;
 import com.projects.newsservice.exception.NotFoundUserException;
+import com.projects.newsservice.exception.OtherAppException;
 import com.projects.newsservice.repository.PostRepo;
 import com.projects.newsservice.repository.TagRepo;
 import com.projects.newsservice.repository.UserRepo;
@@ -70,6 +71,17 @@ public class PostService {
         return this.convertToDto(post);
     }
 
+    @Transactional
+    public void updatePost(Long id, PostRequest newPost, String userName) {
+        Post post = postRepo.findById(id).orElseThrow(() -> new NotFoundPostException("Post with given id not exist"));
+        if (!post.getAuthor().getUsername().equals(userName))
+            throw new OtherAppException("You are not author of post!!!");
+
+
+        updatePostFromPostRequest(post, newPost);
+        postRepo.save(post);
+    }
+
     private PostDto convertToDto(Post post) {
         PostDto postDto = new PostDto();
         postDto.setPostId(post.getPost_id());
@@ -98,4 +110,17 @@ public class PostService {
         return postDto;
     }
 
+    public void updatePostFromPostRequest(Post post, PostRequest postRequest) {
+        post.setTitle(postRequest.getTitle());
+        post.setNews_url(postRequest.getNews_url());
+        post.setContent(postRequest.getContent());
+        post.setImgUrl(postRequest.getImageUrl());
+
+        //if user edit tag, save tag if new and set newTag to post
+        if (!post.getTag().getName().equals(postRequest.getTag())) {
+            Tag tag = tagRepo.getTagByName(postRequest.getTag()).orElseGet(() -> tagRepo.save(new Tag(postRequest.getTag())));
+            post.setTag(tag);
+            //Todo: Implement: If old tag don't have post, delete it
+        }
+    }
 }

@@ -47,4 +47,11 @@ public class PostController {
     public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getPostByUser(userName));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UsernamePasswordAuthenticationToken user)
+    {
+        postService.updatePost(id, postRequest, user.getName());
+        return ResponseEntity.noContent().build();
+    }
 }
