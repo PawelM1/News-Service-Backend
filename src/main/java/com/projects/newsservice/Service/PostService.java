@@ -120,7 +120,13 @@ public class PostService {
         if (!post.getTag().getName().equals(postRequest.getTag())) {
             Tag tag = tagRepo.getTagByName(postRequest.getTag()).orElseGet(() -> tagRepo.save(new Tag(postRequest.getTag())));
             post.setTag(tag);
-            //Todo: Implement: If old tag don't have post, delete it
         }
+    }
+
+    @Transactional
+    public void deletePost(Long id, String user) {
+        Post post = postRepo.findById(id).orElseThrow(() -> new NotFoundPostException("Post with given id not exist"));
+        if(!post.getAuthor().getUsername().equals(user)) throw new OtherAppException("You are not the author of this post");
+        this.postRepo.deleteById(id);
     }
 }

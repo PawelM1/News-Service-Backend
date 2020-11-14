@@ -49,9 +49,15 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UsernamePasswordAuthenticationToken user)
+    public ResponseEntity<Void> updatePost(@PathVariable("id") Long id, @RequestBody PostRequest postRequest, @AuthenticationPrincipal UsernamePasswordAuthenticationToken user)
     {
         postService.updatePost(id, postRequest, user.getName());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id, @AuthenticationPrincipal UsernamePasswordAuthenticationToken user){
+        postService.deletePost(id, user.getName());
         return ResponseEntity.noContent().build();
     }
 }
