@@ -3,6 +3,9 @@ Backend part of the application that allows you to place links to external websi
 
 Java, Spring Boot, Spring Security(JWT), Spring Data, Liquibase, H2 db
 
+# Live Demo
+https://news-service.netlify.app/
+
 # Video:
 Check out the video presenting the applications.
 
